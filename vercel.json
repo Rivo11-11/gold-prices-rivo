@@ -12,15 +12,19 @@
   ],
   "routes": [
     {
+      "src": "/api/cron/update-metal",
+      "dest": "src/api/update-metal.ts"
+    },
+    {
       "src": "/(.*)",
       "dest": "src/app.ts"
     }
   ],
-  "crons" : [
+  "crons": [
     {
-      "path": "src/api/update-metal.ts",
+      "path": "/api/cron/update-metal",
       "schedule": "*/20 * * * *"
     }
   ],
   "installCommand": "npm install --legacy-peer-deps"
-} 
+}
