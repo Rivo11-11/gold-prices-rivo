@@ -1,29 +1,17 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
-import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
+import { agenda } from "../utils/agenda.js";
+import axios from "axios"; 
 import Metal from "../models/metal.js";
-import ResponseUtils from "../utils/responseUtils.js";
-import axios from "axios";
 import Keys from "../models/keys.js";
 
-export default async function handler(
-    req: VercelRequest,
-    res: VercelResponse
-) {
-    try {
-        const { CRON_SECRET, MONGODB_URI, METAL_API_URL } = process.env;
-        if (!CRON_SECRET) throw new Error("CRON_SECRET is not defined");
-        if (!MONGODB_URI) throw new Error("MONGODB_URI is not defined");
-        if (!METAL_API_URL) throw new Error("METAL_API_URL is not defined");
+agenda.define("update-gold-price", async () => {
+  console.log("⏳ Updating gold price...");
+  await updateGoldPrice();
+});
 
-        if (req.headers.authorization !== `Bearer ${CRON_SECRET}`) {
-            return ResponseUtils.unauthorized(res, "Not authorized");
-        }
-
-        if (mongoose.connection.readyState !== 1) {
-            await mongoose.connect(MONGODB_URI);
-        }
-
-        const keys = await Keys.findOne();
+async function updateGoldPrice() {
+     const keys = await Keys.findOne();
         if (!keys) {
             throw new Error("No API keys document found in the database");
         }
@@ -32,7 +20,10 @@ export default async function handler(
             throw new Error("No API keys available in the keys document");
         }
 
-        const response = await axios.get(METAL_API_URL, {
+        console.log(process.env.METAL_API_URL)
+        console.log(keys.keys[keys.current])
+
+        const response = await axios.get(process.env.METAL_API_URL!, {
             headers: {
                 'x-access-token': keys.keys[keys.current]
             }
@@ -69,10 +60,5 @@ export default async function handler(
             },
             { upsert: true, new: true }
         );
-        return ResponseUtils.success(res, 'Metal prices updated successfully');
-    } catch (error: any) {
-        console.error("Error updating metal prices:", error);
-        const errorMessage = error instanceof Error ? error.message : String(error);
-        return ResponseUtils.unprocessableEntity(res, "Failed to update metal prices: " + errorMessage);
-    }
+        console.log("✅ Gold price updated");
 }
