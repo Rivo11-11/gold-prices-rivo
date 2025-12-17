@@ -5,3 +5,5 @@ yarn.lock
 dist 
 eslint.config.mjs
 nodemon.json
+.vercel
+.env*.local
