@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/app.ts",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "src/api/update-metal.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "src/app.ts"
+    }
+  ],
+  "crons" : [
+    {
+      "path": "src/api/update-metal.ts",
+      "schedule": "*/20 * * * *"
+    }
+  ],
+  "installCommand": "npm install --legacy-peer-deps"
+} 
