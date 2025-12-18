@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import { globalErrorHandler } from "./middleware/errorHandler.js";
 import metalRouter from "./routers/metalRouter.js";
 import "./jobs/updatePrices.js";
+// import { agenda } from "./utils/agenda.js";
 const app = express();
 const PORT = 5000;
 const MONGO_URI = process.env.MONGO_URI;

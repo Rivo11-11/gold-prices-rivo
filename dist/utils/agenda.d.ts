@@ -1,2 +1,2 @@
-export declare const agenda: any;
+export {};
 //# sourceMappingURL=agenda.d.ts.map
