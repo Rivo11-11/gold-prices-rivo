@@ -31,8 +31,8 @@ app.use(globalErrorHandler);
 
 mongoose.connect(MONGO_URI!)
   .then(async () => {
-    await agenda.start();
-    await agenda.every("20 minutes", "update-gold-price");
+    // await agenda.start();
+    // await agenda.every("20 minutes", "update-gold-price");
     app.listen(PORT, () => {
       console.log(`🚀 Server running on http://localhost:${PORT}`);
     });

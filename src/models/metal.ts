@@ -19,7 +19,8 @@ export interface IMetal extends Document {
   price_gram_18k: number,
   price_gram_16k: number,
   price_gram_14k: number,
-  price_gram_10k: number
+  price_gram_10k: number,
+  nextExecution: Date,
 }
 
 const MetalSchema: Schema = new Schema({
@@ -41,6 +42,7 @@ const MetalSchema: Schema = new Schema({
   price_gram_16k: { type: Number, required: true },
   price_gram_14k: { type: Number, required: true },
   price_gram_10k: { type: Number, required: true },
+  nextExecution: { type: Date, required: true },
   }, 
   {
   timestamps: true 
