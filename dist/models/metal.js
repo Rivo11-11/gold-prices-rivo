@@ -18,6 +18,7 @@ const MetalSchema = new Schema({
     price_gram_16k: { type: Number, required: true },
     price_gram_14k: { type: Number, required: true },
     price_gram_10k: { type: Number, required: true },
+    nextExecution: { type: Date, required: true },
 }, {
     timestamps: true
 });

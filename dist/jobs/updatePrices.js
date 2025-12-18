@@ -1,14 +1,14 @@
 import dotenv from "dotenv";
 dotenv.config();
-import { agenda } from "../utils/agenda.js";
+// import { agenda } from "../utils/agenda.js";
 import axios from "axios";
 import Metal from "../models/metal.js";
 import Keys from "../models/keys.js";
-agenda.define("update-gold-price", async () => {
-    console.log("⏳ Updating gold price...");
-    await updateGoldPrice();
-});
-async function updateGoldPrice() {
+// agenda.define("update-gold-price", async () => {
+//     console.log("⏳ Updating gold price...");
+//     await updateGoldPrice();
+// });
+export async function updateGoldPrice() {
     const keys = await Keys.findOne();
     if (!keys) {
         throw new Error("No API keys document found in the database");
@@ -16,8 +16,6 @@ async function updateGoldPrice() {
     if (!keys.keys || keys.keys.length === 0) {
         throw new Error("No API keys available in the keys document");
     }
-    console.log(process.env.METAL_API_URL);
-    console.log(keys.keys[keys.current]);
     const response = await axios.get(process.env.METAL_API_URL, {
         headers: {
             'x-access-token': keys.keys[keys.current]
@@ -29,7 +27,7 @@ async function updateGoldPrice() {
     const newCurrent = (keys.current + 1) % keysLength;
     keys.current = newCurrent;
     await keys.save();
-    await Metal.findOneAndUpdate({ symbol: data.symbol }, {
+    const result = await Metal.findOneAndUpdate({ symbol: data.symbol }, {
         timestamp: data.timestamp,
         metal: data.metal,
         currency: data.currency,
@@ -48,7 +46,9 @@ async function updateGoldPrice() {
         price_gram_16k: data.price_gram_16k,
         price_gram_14k: data.price_gram_14k,
         price_gram_10k: data.price_gram_10k,
+        nextExecution: new Date(Date.now() + 20 * 60 * 1000),
     }, { upsert: true, new: true });
     console.log("✅ Gold price updated");
+    return result;
 }
 //# sourceMappingURL=updatePrices.js.map

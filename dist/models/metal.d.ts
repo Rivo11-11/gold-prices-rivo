@@ -18,6 +18,7 @@ export interface IMetal extends Document {
     price_gram_16k: number;
     price_gram_14k: number;
     price_gram_10k: number;
+    nextExecution: Date;
 }
 declare const _default: mongoose.Model<IMetal, {}, {}, {}, mongoose.Document<unknown, {}, IMetal, {}, {}> & IMetal & Required<{
     _id: unknown;

@@ -6,7 +6,6 @@ import mongoose from "mongoose";
 import { globalErrorHandler } from "./middleware/errorHandler.js";
 import metalRouter from "./routers/metalRouter.js";
 import "./jobs/updatePrices.js";
-import { agenda } from "./utils/agenda.js";
 const app = express();
 const PORT = 5000;
 const MONGO_URI = process.env.MONGO_URI;
@@ -18,8 +17,8 @@ app.use('/api/v1/metal', metalRouter);
 app.use(globalErrorHandler);
 mongoose.connect(MONGO_URI)
     .then(async () => {
-    await agenda.start();
-    await agenda.every("20 minutes", "update-gold-price");
+    // await agenda.start();
+    // await agenda.every("20 minutes", "update-gold-price");
     app.listen(PORT, () => {
         console.log(`🚀 Server running on http://localhost:${PORT}`);
     });
