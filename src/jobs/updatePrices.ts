@@ -20,6 +20,7 @@ export async function updateGoldPrice() {
         throw new Error("No API keys available in the keys document");
     }
 
+    try {
     const response = await axios.get(process.env.METAL_API_URL!, {
         headers: {
             'x-access-token': keys.keys[keys.current]
@@ -60,4 +61,14 @@ export async function updateGoldPrice() {
     );
     console.log("✅ Gold price updated");
     return result;
+    } catch (error) {
+        if ((error as any).response.status === 403) {
+            console.log("❌ API key limit reached for key number : ", keys.current);
+            const newCurrent = (keys.current + 1) % keys.keys.length;
+            keys.current = newCurrent;
+            await keys.save();
+            return updateGoldPrice();
+        }
+    }
+
 }
