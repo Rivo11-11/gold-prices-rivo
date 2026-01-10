@@ -1,0 +1,1 @@
+{"version":3,"file":"FootballController.d.ts","sourceRoot":"","sources":["../../src/controllers/FootballController.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAC;AAG5C,qBAAa,kBAAkB;IACvB,UAAU,CAAC,GAAG,EAAE,OAAO,EAAE,GAAG,EAAE,QAAQ;IAMtC,eAAe,CAAC,GAAG,EAAC,OAAO,EAAC,GAAG,EAAC,QAAQ;CAO/C"}

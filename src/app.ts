@@ -7,6 +7,8 @@ import { globalErrorHandler } from "./middleware/errorHandler.js";
 import metalRouter from "./routers/metalRouter.js";
 import "./jobs/updatePrices.js";
 import currencyRouter from "./routers/currencyRouter.js";
+import { FootballController } from "./controllers/FootballController.js";
+import footballRouter from "./routers/footballRouter.js";
 // import { agenda } from "./utils/agenda.js";
 
 const app = express();
@@ -24,7 +26,7 @@ app.use(morgan('dev'));
 
 app.use('/api/v1/metal', metalRouter);
 app.use('/api/v1/currency', currencyRouter);
-
+app.use('/api/v1/football', footballRouter)
 
 app.use(globalErrorHandler);
 
