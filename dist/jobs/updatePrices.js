@@ -2,12 +2,10 @@ import dotenv from "dotenv";
 dotenv.config();
 // import { agenda } from "../utils/agenda.js";
 import axios from "axios";
+import * as cheerio from "cheerio";
 import Metal from "../models/metal.js";
+import Gold from "../models/gold.js";
 import Keys from "../models/keys.js";
-// agenda.define("update-gold-price", async () => {
-//     console.log("⏳ Updating gold price...");
-//     await updateGoldPrice();
-// });
 export async function updateGoldPrice() {
     const keys = await Keys.findOne();
     if (!keys) {
@@ -61,5 +59,38 @@ export async function updateGoldPrice() {
             return updateGoldPrice();
         }
     }
+}
+export async function updateGoldFromScrape() {
+    const { data } = await axios.get(process.env.GOLD_API_URL, {
+        headers: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept": "text/html,application/xhtml+xml",
+        },
+        decompress: true
+    });
+    const $ = cheerio.load(data, {
+        xmlMode: false,
+    });
+    const prices = [];
+    const goldTable = $("table.table").filter((_, el) => {
+        return $(el).find('tbody a[href*="/gold/"]').length > 0;
+    });
+    const parsePrice = (raw) => parseInt(raw.replace(/[^\d]/g, ""), 10);
+    goldTable.find("tbody tr").each((_, row) => {
+        const cells = $(row).find("td");
+        const type = cells.eq(0).text().trim();
+        const sell = parsePrice(cells.eq(1).text().trim());
+        const buy = parsePrice(cells.eq(2).text().trim());
+        if (type) {
+            prices.push({ type, sell, buy });
+        }
+    });
+    const result = await Gold.findOneAndUpdate({}, {
+        prices: prices,
+        nextExecution: new Date(Date.now() + 60 * 60 * 1000),
+    }, { upsert: true, new: true });
+    console.log("✅ Gold price updated");
+    return result;
 }
 //# sourceMappingURL=updatePrices.js.map

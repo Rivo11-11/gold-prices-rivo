@@ -1,0 +1,1 @@
+{"version":3,"file":"gold.d.ts","sourceRoot":"","sources":["../../src/models/gold.ts"],"names":[],"mappings":"AAAA,OAAO,QAAQ,EAAE,EAAU,QAAQ,EAAE,MAAM,UAAU,CAAC;AAGtD,MAAM,WAAW,KAAM,SAAQ,QAAQ;IACrC,MAAM,EAAI;QAAC;YACT,IAAI,EAAG,MAAM,CAAE;YACf,IAAI,EAAG,MAAM,CAAE;YACf,GAAG,EAAG,MAAM,CAAA;SACb;KAAC,CAAA;IACF,aAAa,EAAE,IAAI,CAAA;CACpB;;;;;;AAgBD,wBAAyD"}
