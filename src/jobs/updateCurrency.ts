@@ -17,7 +17,7 @@ export async function updateCurrency() {
     try {
     const response = await axios.get(process.env.CURRENCY_API_URL!, {
         headers: {
-            'Authorization': 'Token ' + keys.keys[keys.next]
+            'Authorization': 'Token ' + process.env.CURRENCY_API_KEY
         }
     });
     const data = response.data;
