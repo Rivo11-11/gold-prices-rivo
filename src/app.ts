@@ -8,6 +8,7 @@ import metalRouter from "./routers/metalRouter.js";
 import "./jobs/updatePrices.js";
 import currencyRouter from "./routers/currencyRouter.js";
 import goldRouter from "./routers/goldRouter.js";
+import newsRouter from "./routers/newsRouter.js";
 // import { agenda } from "./utils/agenda.js";
 
 const app = express();
@@ -26,6 +27,7 @@ app.use(morgan('dev'));
 app.use('/api/v1/metal', metalRouter);
 app.use('/api/v1/currency', currencyRouter);
 app.use('/api/v1/gold', goldRouter);
+app.use('/api/v1/news', newsRouter);
 
 
 app.use(globalErrorHandler);
