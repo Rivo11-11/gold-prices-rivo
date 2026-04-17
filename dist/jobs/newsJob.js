@@ -17,7 +17,6 @@ export async function updateNewsFromApi() {
                 'country': "eg"
             }
         });
-        console.log(response);
         const articles = response.data.articles || [];
         const nextExecution = new Date(Date.now() + 60 * 60 * 1000);
         const savedArticles = [];
@@ -31,7 +30,7 @@ export async function updateNewsFromApi() {
                         description: article.description,
                         url: article.url,
                         imageUrl: article.image,
-                        publishedAt: new Date(article.publishedAt),
+                        publishedAt: article.publishedAt,
                         websiteName: article.source?.name,
                         websiteUrl: article.source?.url,
                         nextExecution: nextExecution

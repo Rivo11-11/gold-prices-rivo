@@ -5,7 +5,7 @@ export interface INews extends Document {
     description?: string;
     url: string;
     imageUrl?: string;
-    publishedAt: string;
+    publishedAt: Date;
     websiteName?: string;
     websiteUrl?: string;
     nextExecution: Date;

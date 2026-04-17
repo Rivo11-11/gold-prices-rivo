@@ -22,7 +22,7 @@ const NewsSchema = new Schema({
         required: false
     },
     publishedAt: {
-        type: String,
+        type: Date,
         required: true
     },
     websiteName: {

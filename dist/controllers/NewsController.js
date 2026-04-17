@@ -16,21 +16,19 @@ export class NewsController {
                 .skip(skip)
                 .limit(perPage);
             const total = await News.countDocuments();
+            // mapping only interested element
             const formattedNews = newsItems.map(item => {
-                const doc = item.toObject();
-                if (doc.publishedAt) {
-                    doc.publishedAt = new Intl.DateTimeFormat('en-GB', {
-                        timeZone: 'Africa/Cairo',
-                        year: 'numeric',
-                        month: '2-digit',
-                        day: '2-digit',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit',
-                        hour12: true
-                    }).format(new Date(doc.publishedAt));
-                }
-                return doc;
+                return {
+                    _id: item._id,
+                    externalId: item.externalId,
+                    title: item.title,
+                    description: item.description,
+                    url: item.url,
+                    imageUrl: item.imageUrl,
+                    publishedAt: item.publishedAt,
+                    websiteName: item.websiteName,
+                    websiteUrl: item.websiteUrl,
+                };
             });
             return ResponseUtils.success(res, {
                 articles: formattedNews,
