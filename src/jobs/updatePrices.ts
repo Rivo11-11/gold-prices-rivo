@@ -112,7 +112,7 @@ export async function updateGoldFromScrape() {
         {},
         {
             prices: prices,
-            nextExecution: new Date(Date.now() + 60 * 60 * 1000),
+            nextExecution: new Date(Date.now() + 20 * 60 * 1000),
         },
         { upsert: true, new: true }
     );

@@ -87,7 +87,7 @@ export async function updateGoldFromScrape() {
     });
     const result = await Gold.findOneAndUpdate({}, {
         prices: prices,
-        nextExecution: new Date(Date.now() + 60 * 60 * 1000),
+        nextExecution: new Date(Date.now() + 20 * 60 * 1000),
     }, { upsert: true, new: true });
     console.log("✅ Gold price updated");
     return result;
