@@ -73,17 +73,16 @@ export async function updateGoldFromScrape() {
         xmlMode: false,
     });
     const prices = [];
-    const goldTable = $("table.table").filter((_, el) => {
-        return $(el).find('tbody a[href*="/gold/"]').length > 0;
-    });
-    const parsePrice = (raw) => parseInt(raw.replace(/[^\d]/g, ""), 10);
-    goldTable.find("tbody tr").each((_, row) => {
-        const cells = $(row).find("td");
-        const type = cells.eq(0).text().trim();
-        const sell = parsePrice(cells.eq(1).text().trim());
-        const buy = parsePrice(cells.eq(2).text().trim());
-        if (type) {
-            prices.push({ type, sell, buy });
+    const parseFloatPrice = (raw) => {
+        const cleaned = raw.replace(/[^\d.]/g, "");
+        const parsed = parseFloat(cleaned);
+        return parsed;
+    };
+    $("a.card-sm").each((_, el) => {
+        const name = $(el).find("p").first().text().trim();
+        const price = parseFloatPrice($(el).find("p").eq(1).text().trim());
+        if (name && price) {
+            prices.push({ type: name, sell: price, buy: price });
         }
     });
     const result = await Gold.findOneAndUpdate({}, {
